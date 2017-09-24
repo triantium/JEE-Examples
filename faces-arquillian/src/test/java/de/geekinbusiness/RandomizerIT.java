@@ -7,6 +7,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Filters;
 import org.jboss.shrinkwrap.api.GenericArchive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.importer.ExplodedImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
@@ -30,6 +31,7 @@ public class RandomizerIT {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, "faces-arquillian.war")
                 .addClass(Randomizer.class)
                 .addClass(FakeServlet.class);
+        archive.addAsWebInfResource(new StringAsset("<faces-config version=\"2.2\"/>"), "faces-config.xml");
 //                .addAsResource("test-persistence.xml", "META-INF/persistence.xml");
 
 //        File[] files = Maven.resolver().loadPomFromFile("pom.xml")
