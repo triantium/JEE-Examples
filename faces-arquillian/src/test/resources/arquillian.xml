@@ -26,6 +26,9 @@ file and include the License file at packager/legal/LICENSE.txt.
     <engine>
         <property name="deploymentExportPath">target/deployments</property>
     </engine>
+    <extension qualifier="webdriver">
+        <property name="browser">firefox</property>
+    </extension>
     <container qualifier="glassfish-embedded">
         
         <configuration>

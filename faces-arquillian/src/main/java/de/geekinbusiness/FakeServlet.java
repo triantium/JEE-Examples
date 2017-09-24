@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author manuel müller <manuel.mueller@geekinbusiness.de>
  */
-@WebServlet(name = "FakeServlet", urlPatterns = {"*.xhtml"})
+@WebServlet(name = "FakeServlet", urlPatterns = {"/neverEverCallMe"})
 public class FakeServlet extends HttpServlet {
 
     /**
