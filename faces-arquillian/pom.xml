@@ -41,13 +41,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>fish.payara.extras</groupId>
-            <artifactId>payara-embedded-all</artifactId>
-            <version>4.1.2.173.0.1</version>
-            <type>jar</type>
-            <scope>test</scope>
-        </dependency>
+        
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
@@ -63,6 +57,12 @@
             <artifactId>arquillian-glassfish-embedded-3.1</artifactId>
             <version>1.0.1</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>fish.payara.extras</groupId>
+            <artifactId>payara-embedded-all</artifactId>
+            <version>4.1.2.173.0.1</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -93,16 +93,7 @@
                     <systemProperties>
                         <arquillian.launch>glassfish-embedded</arquillian.launch>
                     </systemProperties>
-                    <classpathDependencyExcludes>
-                        <classpathDependencyExcludes>               
-                            javax.servlet:servlet-api
-                        </classpathDependencyExcludes>
-                        <classpathDependencyExcludes>
-                            org.apache.felix:javax.servlet
-                        </classpathDependencyExcludes>
-                    </classpathDependencyExcludes>
                 </configuration>
-                
             </plugin>
         </plugins>
     </build>
