@@ -22,14 +22,12 @@ file and include the License file at packager/legal/LICENSE.txt.
             http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
     <defaultProtocol type="Servlet 3.0"/>
-    <!---->
+    
     <engine>
         <property name="deploymentExportPath">target/deployments</property>
     </engine>
     <container qualifier="glassfish-embedded">
-        <!--<protocol type="Servlet 3.0">
-            <property name="executionType">EMBEDDED</property>
-        </protocol>-->
+        
         <configuration>
             <property name="bindHttpPort">8088</property>
             <!--<property name="resourcesXml">

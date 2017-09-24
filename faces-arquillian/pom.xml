@@ -63,6 +63,7 @@
             <artifactId>payara-embedded-all</artifactId>
             <version>4.1.2.173.0.1</version>
             <type>jar</type>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <dependencyManagement>
