@@ -3,16 +3,20 @@ package de.geekinbusiness;
 import java.io.File;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Filters;
 import org.jboss.shrinkwrap.api.GenericArchive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.importer.ExplodedImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -25,25 +29,37 @@ public class RandomizerIT {
 
     private static final String WEBAPP_SRC = "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "";
 
+    @Drone
+    WebDriver driver;
+
     @Inject
     Randomizer rand;
 
-    @Deployment
-    public static WebArchive createDeployment() {
-        WebArchive archive = ShrinkWrap.create(WebArchive.class, "faces-arquillian.war")
-                .addClass(Randomizer.class)
-                .addClass(FakeServlet.class);
+    @BeforeClass
+    public static void beforeClass() {
+    }
 
-//                .addAsResource("test-persistence.xml", "META-INF/persistence.xml");
+    @Deployment
+    //    @OverProtocol("Servlet 3.0")
+    public static WebArchive createDeployment() {
+
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, "facesarquillian.war")
+                .addClass(Randomizer.class);
+
+        archive.merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class).importDirectory(WEBAPP_SRC).as(GenericArchive.class),
+                "/", Filters.exclude(".*\\.xml"));
+        //archive.addClass(FakeServlet.class)
+        System.out.println(archive.toString(true));
+        archive.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");//To activate CDI
+        archive.addAsWebInfResource("WEB-INF/web.xml", "web.xml");
+        archive.addAsResource("test-persistence.xml", "META-INF/persistence.xml");
+//doesn't Have Runtime dependencies
 //        File[] files = Maven.resolver().loadPomFromFile("pom.xml")
 //                .importRuntimeDependencies().resolve().withTransitivity().asFile();
 //        archive.addAsLibraries(files);
-        archive.merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class)
-                .importDirectory(WEBAPP_SRC).as(GenericArchive.class),
-                "/", Filters.includeAll());
-
         archive.addAsWebInfResource("WEB-INF/faces-config.xml", "faces-config.xml");
         System.out.println("WebArchiv erstellt");
+        System.out.println(archive.toString(true));
         return archive;
 
     }
@@ -57,27 +73,27 @@ public class RandomizerIT {
     }
 
     @Test
+    @RunAsClient
     public void testSimple() throws Exception {
-        // Create a new instance of the Firefox driver
-        // Notice that the remainder of the code relies on the interface,
-        // not the implementation.
-        WebDriver driver = new FirefoxDriver();
 
-        // And now use this to visit NetBeans
-        driver.get("http://localhost:8088/faces-arquillian/");
-        // Alternatively the same thing can be done like this
-        // driver.navigate().to("http://www.netbeans.org");
+        try {
+            // And now use this to visit NetBeans
+            driver.get("http://localhost:8088/facesarquillian/");
 
-        // Check the title of the page
-        // Wait for the page to load, timeout after 10 seconds
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            @Override
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().contains("Kanban Board");
-            }
-        });
+            // Check the title of the page
+            // Wait for the page to load, timeout after 10 seconds
+            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+                @Override
+                public Boolean apply(WebDriver d) {
+                    return d.findElement(By.id("test")).getText().equals("I work");
+                }
+            });
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
 
-        //Close the browser
-        driver.quit();
+            //Close the browser
+            driver.quit();
+        }
     }
 }

@@ -8,6 +8,6 @@ import javax.inject.Named;
 public class Randomizer {
 
     public String random() {
-        return Double.toString(Math.random());
+        return "I work";
     }
 }

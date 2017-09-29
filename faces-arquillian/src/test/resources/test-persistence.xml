@@ -17,5 +17,10 @@
  file and include the License file at packager/legal/LICENSE.txt.
  -->
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  
+  <persistence-unit name="de.geekinbusiness_faces-arquillian_war_1.0-SNAPSHOTPU" transaction-type="JTA">
+    <jta-data-source>jdbc/__default</jta-data-source>
+    <properties>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+    </properties>
+  </persistence-unit>
 </persistence>
