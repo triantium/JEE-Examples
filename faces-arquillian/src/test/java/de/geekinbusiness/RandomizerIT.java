@@ -1,6 +1,7 @@
 package de.geekinbusiness;
 
 import java.io.File;
+import java.time.Duration;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -82,7 +83,8 @@ public class RandomizerIT {
 
             // Check the title of the page
             // Wait for the page to load, timeout after 10 seconds
-            (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            Duration  timeout = Duration.ofSeconds(10);
+            (new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
                 @Override
                 public Boolean apply(WebDriver d) {
                     return d.findElement(By.id("test")).getText().equals("I work");

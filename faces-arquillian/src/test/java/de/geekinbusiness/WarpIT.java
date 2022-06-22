@@ -9,9 +9,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
+
 @RunWith(Arquillian.class)
 @RunAsClient
-public class WarpTest {
+public class WarpIT {
 
     @Drone
     WebDriver driver;
